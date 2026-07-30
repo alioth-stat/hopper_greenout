@@ -5,9 +5,7 @@
 ![Python](https://img.shields.io/badge/python-3.9%2B-blue)
 ![Deps](https://img.shields.io/badge/dependencies-1%20(requests)-brightgreen)
 ![Schedule](https://img.shields.io/badge/runs-every%2010%20min-orange)
-[![Auto Commit](https://github.com/OWNER/REPO/actions/workflows/auto_commit.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/auto_commit.yml)
-
-> Swap `OWNER/REPO` in the badge above once this is pushed to GitHub.
+[![Auto Commit](https://github.com/alioth-stat/hopper_greenout/actions/workflows/auto_commit.yml/badge.svg)](https://github.com/alioth-stat/hopper_greenout/actions/workflows/auto_commit.yml)
 
 ---
 
@@ -83,9 +81,9 @@ Network hiccups, a bad ticker, or a git conflict are caught, logged to `logs/err
 
 **Locally / on a server:** run `python hopper_greenout.py --loop` under `systemd`, `tmux`, `pm2`, or similar so it survives reboots.
 
-**GitHub Actions (recommended for a "self-updating" repo):** [`.github/workflows/auto_commit.yml`](.github/workflows/auto_commit.yml) runs `--once` on a `*/10 * * * *` cron and pushes straight from the runner. Set it up:
+**GitHub Actions (recommended for a "self-updating" repo):** [`.github/workflows/auto_commit.yml`](.github/workflows/auto_commit.yml) runs `--once` on a `*/10 * * * *` cron and pushes straight from the runner. Already set up on this repo — `GH_TOKEN` secret is configured and the workflow starts firing automatically. To redo this on a fork/clone:
 
-1. Add a repo secret `GH_TOKEN` — a personal access token (or fine-grained token) with `contents: write` on this repo.
+1. Add a repo secret `GH_TOKEN` — a personal access token (or fine-grained token) with `contents: write` on this repo. Quick way: `gh secret set GH_TOKEN --body "$(gh auth token)"`.
 2. Push this repo to GitHub. The workflow starts firing on its own schedule.
 3. Trigger it manually anytime from the **Actions** tab (`workflow_dispatch`).
 
