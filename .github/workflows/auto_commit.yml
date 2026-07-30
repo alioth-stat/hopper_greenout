@@ -1,0 +1,42 @@
+name: AI Market Cap Benchmark
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # every 10 minutes
+  workflow_dispatch: {}       # manual "Run workflow" button
+
+# Prevent overlapping runs from racing on the same git history.
+concurrency:
+  group: hopper-greenout
+  cancel-in-progress: false
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      - name: Configure git identity
+        run: |
+          git config user.name "hopper-greenout-bot"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: Fetch, log, commit, push
+        run: python hopper_greenout.py --once
+
+      - name: Upload error log (if any)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: hopper-greenout-error-log
+          path: logs/error.log
+          if-no-files-found: ignore
