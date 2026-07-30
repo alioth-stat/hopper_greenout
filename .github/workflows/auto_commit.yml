@@ -1,8 +1,12 @@
 name: AI Market Cap Benchmark
 
 on:
-  schedule:
-    - cron: "*/10 * * * *"   # every 10 minutes
+  # Scheduled cron is disabled: GitHub Actions throttles/delays 10-minute
+  # schedule triggers heavily (observed 90+ min gaps), so the local
+  # systemd --loop service is the primary scheduler now. Kept here for
+  # manual runs and as a fallback -- uncomment to re-enable the cron.
+  # schedule:
+  #   - cron: "*/10 * * * *"
   workflow_dispatch: {}       # manual "Run workflow" button
 
 # Prevent overlapping runs from racing on the same git history.
